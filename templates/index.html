@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% block title %}Fertilizer Recommendation{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center fade-up">
+    <div class="col-lg-8">
+
+        <div class="glass-card-strong p-4 p-lg-5">
+
+            <div class="text-center mb-4">
+                <div class="soft-badge mb-3">
+                    <i class="bi bi-droplet-fill"></i> Fertilizer Module
+                </div>
+                <h2 class="section-title">Fertilizer Recommendation</h2>
+                <p class="muted">Enter your crop and location to get NPK suggestions</p>
+            </div>
+
+            <form method="POST" action="/processing/">
+
+                <!-- Crop Dropdown -->
+                <div class="mb-3">
+                    <label class="form-label">Crop</label>
+                    <select name="crop" class="form-control input-premium" required>
+                        <option value="">Select Crop</option>
+
+                        <option value="banana">Banana</option>
+                        <option value="blackgram">Black Gram</option>
+                        <option value="chickpea">Chickpea</option>
+                        <option value="coconut">Coconut</option>
+                        <option value="coffee">Coffee</option>
+                        <option value="cotton">Cotton</option>
+                        <option value="jute">Jute</option>
+                        <option value="kidneybeans">Kidney Beans</option>
+                        <option value="lentil">Lentil</option>
+                        <option value="maize">Maize</option>
+                        <option value="mango">Mango</option>
+                        <option value="mothbeans">Moth Beans</option>
+                        <option value="mungbean">Mung Bean</option>
+                        <option value="muskmelon">Muskmelon</option>
+                        <option value="orange">Orange</option>
+                        <option value="papaya">Papaya</option>
+                        <option value="pigeonpeas">Pigeon Peas</option>
+                        <option value="pomegranate">Pomegranate</option>
+                        <option value="rice">Rice</option>
+                        <option value="watermelon">Watermelon</option>
+
+                    </select>
+                </div>
+
+                <!-- State Dropdown -->
+                <div class="mb-3">
+                    <label class="form-label">State</label>
+                    <select name="state" id="state" class="form-control input-premium" required onchange="updateCities()">
+                        <option value="">Select State</option>
+                    </select>
+                </div>
+
+                <!-- City Dropdown -->
+                <div class="mb-3">
+                    <label class="form-label">City</label>
+                    <select name="city" id="city" class="form-control input-premium" required>
+                        <option value="">Select City</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-premium w-100 mt-3">
+                    <i class="bi bi-search me-2"></i> Get Recommendation
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- JS for State-City -->
+<script>
+const stateCity = {
+    "Andhra Pradesh": ["Visakhapatnam","Vijayawada","Guntur","Nellore","Kurnool","Rajahmundry"],
+    "Arunachal Pradesh": ["Itanagar","Tawang","Ziro"],
+    "Assam": ["Guwahati","Silchar","Dibrugarh","Jorhat"],
+    "Bihar": ["Patna","Gaya","Muzaffarpur","Bhagalpur","Darbhanga"],
+    "Chhattisgarh": ["Raipur","Bilaspur","Durg","Korba"],
+    "Goa": ["Panaji","Margao","Vasco da Gama"],
+    "Gujarat": ["Ahmedabad","Surat","Vadodara","Rajkot","Bhavnagar"],
+    "Haryana": ["Gurgaon","Faridabad","Panipat","Ambala"],
+    "Himachal Pradesh": ["Shimla","Manali","Dharamshala","Solan"],
+    "Jharkhand": ["Ranchi","Jamshedpur","Dhanbad","Bokaro"],
+    "Karnataka": ["Bangalore","Mysore","Mangalore","Hubli","Belgaum"],
+    "Kerala": ["Kochi","Trivandrum","Kozhikode","Thrissur"],
+    "Madhya Pradesh": ["Bhopal","Indore","Gwalior","Jabalpur","Ujjain"],
+    "Maharashtra": ["Mumbai","Pune","Nagpur","Nashik","Aurangabad","Thane"],
+    "Manipur": ["Imphal","Thoubal"],
+    "Meghalaya": ["Shillong","Tura"],
+    "Mizoram": ["Aizawl","Lunglei"],
+    "Nagaland": ["Kohima","Dimapur"],
+    "Odisha": ["Bhubaneswar","Cuttack","Rourkela","Sambalpur","Berhampur"],
+    "Punjab": ["Amritsar","Ludhiana","Jalandhar","Patiala"],
+    "Rajasthan": ["Jaipur","Udaipur","Jodhpur","Kota","Ajmer"],
+    "Sikkim": ["Gangtok","Namchi"],
+    "Tamil Nadu": ["Chennai","Coimbatore","Madurai","Salem","Tiruchirappalli"],
+    "Telangana": ["Hyderabad","Warangal","Karimnagar","Nizamabad"],
+    "Tripura": ["Agartala","Udaipur"],
+    "Uttar Pradesh": ["Lucknow","Kanpur","Varanasi","Agra","Noida","Prayagraj"],
+    "Uttarakhand": ["Dehradun","Haridwar","Rishikesh","Nainital"],
+    "West Bengal": ["Kolkata","Howrah","Durgapur","Siliguri","Asansol"],
+
+    // Union Territories
+    "Delhi": ["New Delhi","Dwarka","Rohini"],
+    "Jammu and Kashmir": ["Srinagar","Jammu","Anantnag"],
+    "Ladakh": ["Leh","Kargil"],
+    "Chandigarh": ["Chandigarh"],
+    "Puducherry": ["Puducherry","Karaikal"],
+    "Andaman and Nicobar Islands": ["Port Blair"],
+    "Dadra and Nagar Haveli and Daman and Diu": ["Daman","Diu","Silvassa"],
+    "Lakshadweep": ["Kavaratti"]
+};
+
+// Populate states
+const stateSelect = document.getElementById("state");
+
+for (let state in stateCity) {
+    let option = document.createElement("option");
+    option.value = state;
+    option.text = state;
+    stateSelect.appendChild(option);
+}
+
+// Update cities
+function updateCities() {
+    const citySelect = document.getElementById("city");
+    const selectedState = stateSelect.value;
+
+    citySelect.innerHTML = "<option value=''>Select City</option>";
+
+    if (selectedState in stateCity) {
+        stateCity[selectedState].forEach(city => {
+            let option = document.createElement("option");
+            option.value = city;
+            option.text = city;
+            citySelect.appendChild(option);
+        });
+    }
+}
+</script>
+
+{% endblock %}

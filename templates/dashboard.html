@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="fade-up">
+
+    <!-- Header -->
+    <div class="mb-4">
+        <h1 class="section-title">Welcome, {{ user.username }}</h1>
+        <p class="muted">Select a module to continue</p>
+    </div>
+
+    <!-- MODULE CARDS -->
+    <div class="row g-4">
+
+        <!-- Disease Detection -->
+        <div class="col-md-4">
+            <a href="{{ url_for('disease') }}" class="text-decoration-none">
+                <div class="glass-card p-4 text-center h-100">
+                    <i class="bi bi-leaf-fill fs-1 text-success"></i>
+                    <h4 class="mt-3">Disease Detection</h4>
+                    <p class="muted">Upload leaf image and detect disease</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- Fertilizer -->
+        <div class="col-md-4">
+            <a href="{{ url_for('fertilizer') }}" class="text-decoration-none">
+                <div class="glass-card p-4 text-center h-100">
+                    <i class="bi bi-droplet-fill fs-1 text-primary"></i>
+                    <h4 class="mt-3">Fertilizer Recommendation</h4>
+                    <p class="muted">Get NPK and best time to fertilize</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- Weather -->
+        <div class="col-md-4">
+            <div class="glass-card p-4 text-center h-100">
+                <i class="bi bi-cloud-sun-fill fs-1 text-warning"></i>
+                <h4 class="mt-3">Weather Forecast</h4>
+                <p class="muted">Check real-time weather conditions</p>
+            </div>
+        </div>
+
+        
+
+        <!-- Mandi Price -->
+        <!-- Mandi Price -->
+<div class="col-md-4">
+    <a href="{{ url_for('mandi_price_page') }}" class="text-decoration-none">
+        <div class="glass-card p-4 text-center h-100">
+            <i class="bi bi-currency-rupee fs-1 text-success"></i>
+            <h4 class="mt-3">Mandi Prices</h4>
+            <p class="muted">View crop market prices</p>
+        </div>
+    </a>
+</div>
+<div class="col-md-4">
+    <a href="/soil-health" style="text-decoration: none;">
+        <div class="glass-card text-center p-4 module-card">
+
+            <div style="font-size: 40px; color: #2ecc71;">
+                <i class="bi bi-globe" style="font-size: 40px; color:#2ecc71;"></i>
+            </div>
+
+            <h4 class="mt-3 text-primary">Soil Health Analysis</h4>
+
+            <p class="text-muted">
+                Analyze soil quality and detect deficiencies
+            </p>
+
+        </div>
+    </a>
+</div>
+<div class="col-md-4">
+    <a href="/marketplace" class="text-decoration-none">
+        <div class="glass-card p-4 text-center h-100">
+            <i class="bi bi-shop fs-1 text-success"></i>
+            <h4 class="mt-3">Marketplace</h4>
+            <p class="muted">Buy & sell crops directly</p>
+        </div>
+    </a>
+</div>
+    </div>
+
+</div>
+
+{% endblock %}

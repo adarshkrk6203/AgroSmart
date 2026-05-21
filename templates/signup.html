@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% block content %}
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<div class="wrapper">
+    <div class="card">
+        <h2>Create Account 🚀</h2>
+        <p class="subtitle">Join smart farming system</p>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert">{{ messages[0] }}</div>
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+            <div class="input-box">
+                <i class="fa fa-user"></i>
+                <input type="text" name="username" required>
+                <label>Username</label>
+            </div>
+
+            <div class="input-box">
+                <i class="fa fa-envelope"></i>
+                <input type="email" name="email" required>
+                <label>Email (@gmail.com)</label>
+            </div>
+            <div class="input-box">
+                <i class="fa fa-phone"></i>
+                <input type="text" name="phone" required>
+                <label>Phone Number</label>
+            </div>
+            <div class="input-box">
+                <i class="fa fa-lock"></i>
+                <input type="password" id="password" name="password" required>
+                <label>Password</label>
+                <span class="toggle" onclick="togglePassword()">👁️</span>
+            </div>
+
+            <button type="submit">Signup</button>
+        </form>
+
+        <p class="switch">Already have account? <a href="/login">Login</a></p>
+    </div>
+</div>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(-45deg, #2e7d32, #388e3c, #66bb6a, #81c784);
+    background-size: 400% 400%;
+    animation: gradient 10s ease infinite;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.card {
+    backdrop-filter: blur(20px);
+    background: rgba(255,255,255,0.1);
+    padding: 45px;
+    border-radius: 20px;
+    width: 360px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+}
+
+/* same input styles */
+.input-box {
+    position: relative;
+    margin: 25px 0;
+}
+
+.input-box i {
+    position: absolute;
+    left: 10px;
+    top: 12px;
+}
+
+.input-box input {
+    width: 100%;
+    padding: 10px 10px 10px 35px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid white;
+    color: white;
+    outline: none;
+}
+
+.input-box label {
+    position: absolute;
+    left: 35px;
+    top: 10px;
+    transition: 0.3s;
+}
+
+.input-box input:focus ~ label,
+.input-box input:valid ~ label {
+    top: -10px;
+    font-size: 12px;
+    color: #c8e6c9;
+}
+
+.toggle {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background: #00e676;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.05);
+    background: #69f0ae;
+}
+
+.alert {
+    background: rgba(255,0,0,0.3);
+    padding: 8px;
+    border-radius: 8px;
+}
+
+.switch a {
+    color: #c8e6c9;
+}
+</style>
+
+<script>
+function togglePassword() {
+    const pass = document.getElementById("password");
+    pass.type = pass.type === "password" ? "text" : "password";
+}
+</script>
+
+{% endblock %}

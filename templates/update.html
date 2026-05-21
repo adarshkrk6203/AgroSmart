@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+
+{% block title %}Fertilizer Result{% endblock %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+<header
+  style="
+    background: url('{{ url_for('static', filename='parallax/front.jpeg') }}')
+               no-repeat center center/cover;
+    height: 80vh;
+    position: relative;
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+  ">
+
+  <div class="container">
+    <h2 style="color: #00ff00; font-weight: 900;">Agro-Climate</h2>
+    <h3>Fertilizer Recommendation</h3>
+
+    <h1 style="font-size: 3rem; margin-top: 20px;">
+      Your land, our expertise –<br>
+      the best value guaranteed.
+    </h1>
+  </div>
+
+</header>
+
+<!-- RESULT UI -->
+<div class="container mt-5 fade-up">
+
+    <h2 class="section-title mb-4 text-center">Fertilizer Recommendation Result</h2>
+
+    <!-- USER INPUT -->
+    <div class="glass-card p-4 mb-4">
+        <h4><i class="bi bi-info-circle"></i> Entered Details</h4>
+        <p><b>Crop:</b> {{ FORM_DATA['crop'] }}</p>
+        <p><b>State:</b> {{ FORM_DATA['state'] }}</p>
+        <p><b>City:</b> {{ FORM_DATA['city'] }}</p>
+    </div>
+
+    {% if CALL_SUCCESS|length == 1 %}
+
+    <!-- NPK VALUES -->
+    <div class="glass-card p-4 mb-4">
+        <h4><i class="bi bi-bar-chart"></i> NPK Recommendation</h4>
+
+        <div class="row text-center mb-3">
+            <div class="col-md-4">
+                <h3 class="text-success">N</h3>
+                <h4>{{ NPK[0]['Label_N'] }}</h4>
+            </div>
+            <div class="col-md-4">
+                <h3 class="text-primary">P</h3>
+                <h4>{{ NPK[0]['Label_P'] }}</h4>
+            </div>
+            <div class="col-md-4">
+                <h3 class="text-warning">K</h3>
+                <h4>{{ NPK[0]['Label_K'] }}</h4>
+            </div>
+        </div>
+
+        <canvas id="npkChart" height="100"></canvas>
+    </div>
+
+    <!-- FERTILIZER SUGGESTION (NEW) -->
+    <div class="glass-card p-4 mb-4">
+        <h4><i class="bi bi-droplet"></i> Recommended Fertilizers</h4>
+
+        <ul class="list-group list-group-flush">
+            {% for item in FERTILIZER_ADVICE %}
+            <li class="list-group-item">
+                {{ item }}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- RECOMMENDATION TEXT -->
+    <div class="glass-card p-4 mb-4">
+        <h4><i class="bi bi-lightbulb"></i> Recommendation</h4>
+        <h5>{{ POPUP_DATA[0][0] }}</h5>
+        <p>{{ POPUP_DATA[0][1] }}</p>
+        <small>{{ POPUP_DATA[0][2] }}</small>
+    </div>
+
+    <!-- WEATHER -->
+    <div class="glass-card p-4 mb-4">
+        <h4><i class="bi bi-cloud-sun"></i> 7 Days Weather Report</h4>
+
+        <div class="row">
+            {% for di in SEVEN_DAYS %}
+            <div class="col-md-4 mb-3">
+                <div class="p-3 border rounded">
+                    {% for key, value in di.items() %}
+                        <small><b>{{ key }}:</b> {{ value }}</small><br>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    {% else %}
+        <div class="glass-card p-4">
+            <h4>Data not available, try another city.</h4>
+        </div>
+    {% endif %}
+
+    <!-- ACTION BUTTONS -->
+    <div class="text-center mt-4">
+        <a href="/fertilizer" class="btn btn-premium me-2">
+            ← Back
+        </a>
+
+        <a href="/download-report" class="btn btn-success">
+            Download PDF
+        </a>
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    {% if CALL_SUCCESS|length == 1 %}
+
+    const ctx = document.getElementById('npkChart');
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Nitrogen (N)', 'Phosphorus (P)', 'Potassium (K)'],
+            datasets: [{
+                label: 'NPK Values',
+                data: [
+                    {{ NPK[0]['Label_N'] }},
+                    {{ NPK[0]['Label_P'] }},
+                    {{ NPK[0]['Label_K'] }}
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false }
+            }
+        }
+    });
+
+    {% endif %}
+</script>
+
+{% endblock %}

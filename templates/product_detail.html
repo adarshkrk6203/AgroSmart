@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="fade-up">
+
+    <div class="row g-4">
+
+        <!-- Image -->
+        <div class="col-md-6">
+            <div class="glass-card p-3">
+                <img src="/{{ product.image }}" class="w-100" style="border-radius:20px;">
+            </div>
+        </div>
+
+        <!-- Details -->
+        <div class="col-md-6">
+
+            <div class="glass-card p-4 h-100">
+
+                <h2>{{ product.name }}</h2>
+                <p class="muted">{{ product.category }}</p>
+
+                <h3 class="text-success mt-3">
+                    ₹{{ product.price }}/{{ product.unit }}
+                </h3>
+
+                <p class="mt-3">{{ product.description }}</p>
+
+                <hr>
+
+                <h5>👨‍🌾 Farmer Details</h5>
+
+<p><b>{{ farmer.username }}</b></p>
+<p class="muted">📧 {{ farmer.email }}</p>
+<p class="muted">📞 {{ farmer.phone }}</p>
+
+<div class="d-flex gap-2 mt-3 flex-wrap">
+
+    <!-- 📞 Call -->
+    <a href="tel:{{ farmer.phone }}" class="btn-modern">
+        📞 Call
+    </a>
+
+    <!-- 💬 WhatsApp -->
+    <a href="https://wa.me/{{ farmer.phone }}" target="_blank" class="btn-modern">
+        💬 WhatsApp
+    </a>
+
+    <!-- 📧 Email -->
+    <a href="mailto:{{ farmer.email }}" class="btn-modern">
+        📧 Email
+    </a>
+
+</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<style>
+
+
+.btn-modern {
+    padding: 10px 14px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 500;
+    color: white;
+
+    background: linear-gradient(135deg, #16a34a, #22c55e);
+    transition: 0.3s;
+}
+
+.btn-modern:hover {
+    transform: scale(1.05);
+}
+
+
+</style>
+{% endblock %}

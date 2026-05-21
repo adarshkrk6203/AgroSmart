@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}Disease Detection | AgroSmart{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-7 col-xl-6">
+        <div class="glass-card-strong p-4 p-lg-5 fade-up">
+            <div class="text-center mb-4">
+                <div class="soft-badge mb-3"><i class="bi bi-leaf-fill"></i>AI Disease Scanner</div>
+                <h1 class="section-title mb-2">Crop Disease Detection</h1>
+                <p class="muted mb-0">Upload a leaf image to detect disease, view description, and get a suggested cure.</p>
+            </div>
+
+            <form id="predictForm" method="POST" action="{{ url_for('predict_disease') }}" enctype="multipart/form-data">
+                <label for="fileInput" class="upload-area w-100">
+                    <input type="file" name="image" id="fileInput" accept="image/*" hidden required>
+                    <div class="text-center py-4">
+                        <i class="bi bi-cloud-arrow-up fs-1 text-success"></i>
+                        <h5 class="mt-3 mb-2">Drag and drop or click to upload</h5>
+                        <p class="muted mb-0">PNG, JPG, JPEG supported</p>
+                    </div>
+                </label>
+
+                <div class="mt-4 text-center">
+                    <img id="preview" class="img-fluid rounded-4 shadow-sm d-none" style="max-height: 260px; object-fit: cover;" alt="Preview">
+                </div>
+
+                <div class="d-grid mt-4">
+                    <button type="submit" class="btn btn-premium btn-lg" id="analyzeBtn">
+                        <span id="btnText"><i class="bi bi-search me-2"></i>Analyze Image</span>
+                        <span id="btnSpinner" class="spinner-border spinner-border-sm d-none ms-2" role="status" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </form>
+
+            <div id="loadingState" class="text-center mt-4 d-none">
+                <div class="spinner-border text-success" role="status"></div>
+                <p class="muted mt-3 mb-0">Analyzing image...</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .upload-area {
+        display: block;
+        border: 1.5px dashed rgba(34, 197, 94, 0.35);
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.16);
+        cursor: pointer;
+        transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .upload-area:hover {
+        transform: translateY(-2px);
+        border-color: rgba(34, 197, 94, 0.6);
+        background: rgba(255, 255, 255, 0.24);
+    }
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const fileInput = document.getElementById("fileInput");
+    const preview = document.getElementById("preview");
+    const form = document.getElementById("predictForm");
+    const loadingState = document.getElementById("loadingState");
+    const btnText = document.getElementById("btnText");
+    const btnSpinner = document.getElementById("btnSpinner");
+    const analyzeBtn = document.getElementById("analyzeBtn");
+
+    fileInput.addEventListener("change", function () {
+        const file = this.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            preview.src = e.target.result;
+            preview.classList.remove("d-none");
+        };
+        reader.readAsDataURL(file);
+    });
+
+    form.addEventListener("submit", function () {
+        loadingState.classList.remove("d-none");
+        btnSpinner.classList.remove("d-none");
+        btnText.innerHTML = '<i class="bi bi-hourglass-split me-2"></i>Processing';
+        analyzeBtn.disabled = true;
+    });
+</script>
+{% endblock %}

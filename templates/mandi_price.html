@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+
+{% block title %}Mandi Prices{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+
+    <h2>Live Mandi Prices</h2>
+
+    <div class="row mb-3">
+
+    <!-- STATE -->
+    <div class="col-md-4">
+        <select id="state" class="form-control">
+            <option value="">Select State</option>
+            <!-- STATES -->
+            <option value="Andhra Pradesh">Andhra Pradesh</option>
+            <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+            <option value="Assam">Assam</option>
+            <option value="Bihar">Bihar</option>
+            <option value="Chhattisgarh">Chhattisgarh</option>
+            <option value="Goa">Goa</option>
+            <option value="Gujarat">Gujarat</option>
+            <option value="Haryana">Haryana</option>
+            <option value="Himachal Pradesh">Himachal Pradesh</option>
+            <option value="Jharkhand">Jharkhand</option>
+            <option value="Karnataka">Karnataka</option>
+            <option value="Kerala">Kerala</option>
+            <option value="Madhya Pradesh">Madhya Pradesh</option>
+            <option value="Maharashtra">Maharashtra</option>
+            <option value="Manipur">Manipur</option>
+            <option value="Meghalaya">Meghalaya</option>
+            <option value="Mizoram">Mizoram</option>
+            <option value="Nagaland">Nagaland</option>
+            <option value="Odisha">Odisha</option>
+            <option value="Punjab">Punjab</option>
+            <option value="Rajasthan">Rajasthan</option>
+            <option value="Sikkim">Sikkim</option>
+            <option value="Tamil Nadu">Tamil Nadu</option>
+            <option value="Telangana">Telangana</option>
+            <option value="Tripura">Tripura</option>
+            <option value="Uttar Pradesh">Uttar Pradesh</option>
+            <option value="Uttarakhand">Uttarakhand</option>
+            <option value="West Bengal">West Bengal</option>
+            <!-- UNION TERRITORIES -->
+            <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+            <option value="Chandigarh">Chandigarh</option>
+            <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli and Daman and Diu</option>
+            <option value="Delhi">Delhi</option>
+            <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+            <option value="Ladakh">Ladakh</option>
+            <option value="Lakshadweep">Lakshadweep</option>
+            <option value="Puducherry">Puducherry</option>
+        </select>
+    </div>
+
+    <!-- COMMODITY -->
+    <div class="col-md-4">
+        <select id="commodity" class="form-control">
+            <option value="">Select Commodity</option>
+        </select>
+    </div>
+
+    <!-- MARKET -->
+    <div class="col-md-4">
+        <select id="market" class="form-control">
+            <option value="">All Markets</option>
+        </select>
+    </div>
+
+</div>
+
+
+
+    <table class="table table-bordered mt-4">
+        <thead>
+            <tr>
+                <th>State</th>
+                <th>Commodity</th>
+                <th>Market</th>
+                <th>Min Price</th>
+                <th>Modal Price</th>
+                <th>Max Price</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+    </table>
+</div>
+
+<script>
+
+let globalData = [];
+
+// ================= STATE CHANGE =================
+document.getElementById("state").addEventListener("change", async () => {
+    const state = document.getElementById("state").value;
+
+    if (!state) return;
+
+    const res = await fetch(`/api/mandi-price?state=${state}`);
+    const data = await res.json();
+
+    globalData = data;
+
+    const commoditySet = new Set();
+
+    data.forEach(item => {
+        if (item.commodity) {
+            commoditySet.add(item.commodity);
+        }
+    });
+
+    const commodityDropdown = document.getElementById("commodity");
+    commodityDropdown.innerHTML = `<option value="">Select Commodity</option>`;
+
+    commoditySet.forEach(c => {
+        commodityDropdown.innerHTML += `<option value="${c}">${c}</option>`;
+    });
+
+    document.getElementById("market").innerHTML = `<option value="">All Markets</option>`;
+    document.getElementById("tableBody").innerHTML = "";
+});
+
+
+// ================= COMMODITY CHANGE =================
+document.getElementById("commodity").addEventListener("change", () => {
+    const commodity = document.getElementById("commodity").value;
+
+    const filtered = globalData.filter(item => item.commodity === commodity);
+
+    const marketSet = new Set();
+    const tbody = document.getElementById("tableBody");
+
+    tbody.innerHTML = "";
+
+    filtered.forEach(item => {
+        marketSet.add(item.market);
+
+        tbody.innerHTML += `
+        <tr>
+            <td>${item.state}</td>
+            <td>${item.commodity}</td>
+            <td>${item.market}</td>
+            <td>${item.min_price}</td>
+            <td>${item.modal_price}</td>
+            <td>${item.max_price}</td>
+            <td>${item.arrival_date}</td>
+        </tr>`;
+    });
+
+    const marketDropdown = document.getElementById("market");
+    marketDropdown.innerHTML = `<option value="">All Markets</option>`;
+
+    marketSet.forEach(m => {
+        marketDropdown.innerHTML += `<option value="${m}">${m}</option>`;
+    });
+});
+
+
+// ================= MARKET CHANGE =================
+document.getElementById("market").addEventListener("change", () => {
+    const selectedMarket = document.getElementById("market").value;
+    const rows = document.querySelectorAll("#tableBody tr");
+
+    rows.forEach(row => {
+        const marketCell = row.children[2].innerText;
+        row.style.display = (!selectedMarket || marketCell === selectedMarket) ? "" : "none";
+    });
+});
+
+</script>
+
+{% endblock %}

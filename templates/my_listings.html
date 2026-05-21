@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>My Products</h2>
+
+{% for p in products %}
+    <div class="glass-card p-3 mb-3">
+        <h4>{{ p.name }}</h4>
+        <a href="/delete-product/{{ p.id }}" class="btn btn-danger">Delete</a>
+    </div>
+{% endfor %}
+
+{% endblock %}

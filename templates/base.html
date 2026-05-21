@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}AgroSmart{% endblock %}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@3/tsparticles.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <style>
+        :root {
+            --bg: #eef6ef;
+            --bg-2: #dff3e2;
+            --surface: rgba(255, 255, 255, 0.72);
+            --surface-strong: rgba(255, 255, 255, 0.92);
+            --text: #102015;
+            --muted: #5d6b63;
+            --border: rgba(16, 32, 21, 0.08);
+            --shadow: 0 18px 50px rgba(10, 20, 12, 0.10);
+            --primary: #16a34a;
+            --primary-2: #0ea5e9;
+            --accent: #22c55e;
+            --danger: #ef4444;
+        }
+
+        html[data-theme="dark"] {
+            --bg: #07130b;
+            --bg-2: #0d1b12;
+            --surface: rgba(12, 21, 16, 0.72);
+            --surface-strong: rgba(10, 18, 14, 0.94);
+            --text: #e9f4ed;
+            --muted: #9cb0a3;
+            --border: rgba(255, 255, 255, 0.09);
+            --shadow: 0 18px 50px rgba(0, 0, 0, 0.38);
+            --primary: #4ade80;
+            --primary-2: #38bdf8;
+            --accent: #22c55e;
+            --danger: #fb7185;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Inter", sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at top left, rgba(34, 197, 94, 0.18), transparent 28%),
+                radial-gradient(circle at top right, rgba(14, 165, 233, 0.14), transparent 26%),
+                linear-gradient(135deg, var(--bg), var(--bg-2));
+            overflow-x: hidden;
+        }
+
+        #tsparticles {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .app-shell {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+        }
+
+        .navbar-glass {
+            background: var(--surface);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand {
+            font-weight: 800;
+            letter-spacing: -0.03em;
+        }
+
+        .glass-card {
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            border-radius: 24px;
+        }
+
+        .glass-card-strong {
+            background: var(--surface-strong);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            border-radius: 24px;
+        }
+        .glass-card:hover {
+            transform: translateY(-5px);
+            transition: 0.3s;
+}
+        .muted {
+            color: var(--muted);
+        }
+
+        .soft-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.45rem 0.8rem;
+            border-radius: 999px;
+            background: rgba(34, 197, 94, 0.12);
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 0.88rem;
+        }
+
+        .btn-premium {
+            border: 0;
+            border-radius: 16px;
+            padding: 0.85rem 1.1rem;
+            font-weight: 700;
+            color: white;
+            background: linear-gradient(135deg, var(--primary), var(--primary-2));
+            box-shadow: 0 14px 30px rgba(34, 197, 94, 0.25);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+        }
+
+        .btn-premium:hover {
+            transform: translateY(-2px);
+            color: white;
+            box-shadow: 0 18px 36px rgba(34, 197, 94, 0.32);
+        }
+
+        .btn-premium:active {
+            transform: translateY(0);
+        }
+
+        .btn-ghost {
+            border: 1px solid var(--border);
+            background: var(--surface-strong);
+            color: var(--text);
+            border-radius: 16px;
+            padding: 0.8rem 1rem;
+            font-weight: 700;
+            transition: transform 0.2s ease;
+        }
+
+        .btn-ghost:hover {
+            transform: translateY(-1px);
+            color: var(--text);
+        }
+
+        .input-premium {
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            background: var(--surface-strong);
+            color: var(--text);
+            padding: 0.95rem 1rem;
+        }
+
+        .input-premium:focus {
+            border-color: rgba(34, 197, 94, 0.45);
+            box-shadow: 0 0 0 0.2rem rgba(34, 197, 94, 0.12);
+        }
+
+        .section-title {
+            letter-spacing: -0.03em;
+            font-weight: 800;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .theme-toggle {
+            width: 46px;
+            height: 46px;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            background: var(--surface-strong);
+            color: var(--text);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fade-up {
+            animation: fadeUp 0.6s ease both;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .nav-link, .navbar-brand, .dropdown-item {
+            color: var(--text) !important;
+        }
+
+        .navbar .nav-link {
+            opacity: 0.82;
+        }
+
+        .navbar .nav-link:hover {
+            opacity: 1;
+        }
+/* 🔔 Notification Panel */
+#notificationPanel {
+    position: fixed;
+    top: 0;
+    right: -350px;
+    width: 320px;
+    height: 100%;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: -5px 0 20px rgba(0,0,0,0.1);
+    z-index: 9999;
+    transition: right 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+#notificationPanel.active {
+    right: 0;
+}
+
+.notif-header {
+    padding: 15px;
+    font-weight: bold;
+    background: linear-gradient(135deg, #16a34a, #0ea5e9);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#notificationList {
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.notif-item {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateX(10px);}
+    to {opacity: 1; transform: translateX(0);}
+}
+    </style>
+
+    {% block head %}{% endblock %}
+</head>
+<!-- ================= CHATBOT (SAFE ADDITION) ================= -->
+<style>
+#chat-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #16a34a, #0ea5e9);
+    color: white;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+    z-index: 9999;
+}
+
+#chatbox {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 320px;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 18px;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 9999;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+#chatbox-header {
+    background: linear-gradient(135deg, #16a34a, #0ea5e9);
+    color: white;
+    padding: 10px;
+    font-weight: bold;
+    text-align: center;
+}
+
+#messages {
+    height: 260px;
+    overflow-y: auto;
+    padding: 10px;
+    font-size: 14px;
+}
+
+#chat-input {
+    display: flex;
+    border-top: 1px solid #ddd;
+}
+
+#chat-input input {
+    flex: 1;
+    border: none;
+    padding: 10px;
+    outline: none;
+}
+
+#chat-input button {
+    border: none;
+    background: #16a34a;
+    color: white;
+    padding: 10px 15px;
+    font-weight: bold;
+}
+</style>
+
+
+
+
+<body>
+<div id="tsparticles"></div>
+<div id="chat-toggle">
+    <i class="bi bi-chat-dots-fill"></i>
+</div>
+<div id="chatbox">
+    <div id="chatbox-header">Agro Assistant</div>
+    <div id="messages"></div>
+    <div id="chat-input">
+    <input type="text" id="userInput" placeholder="Ask about crops..." />
+    <button onclick="startVoice()" title="Speak">
+        🎤
+    </button>
+    <button onclick="sendMessage()">Send</button>
+</div>
+</div>
+<!-- 🔔 NOTIFICATION PANEL -->
+<div id="notificationPanel">
+    <div class="notif-header">
+        🔔 Notifications
+        <button onclick="markAllRead()">Mark all as read</button>
+    </div>
+
+    <div id="notificationList">
+        <p class="text-muted">No notifications</p>
+    </div>
+</div>
+
+<script>
+const toggle = document.getElementById("chat-toggle");
+const chatbox = document.getElementById("chatbox");
+
+toggle.onclick = () => {
+    chatbox.style.display = chatbox.style.display === "flex" ? "none" : "flex";
+};
+
+/* 🔊 TEXT TO SPEECH */
+function speak(text) {
+    const speech = new SpeechSynthesisUtterance(text);
+
+    if (/[\u0900-\u097F]/.test(text)) {
+        speech.lang = "hi-IN";
+    } else {
+        speech.lang = "en-IN";
+    }
+
+    speech.rate = 1;
+    speech.pitch = 1;
+
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(speech);
+}
+
+/* 💬 CHAT MESSAGE */
+function addMessage(text, type) {
+    let messages = document.getElementById("messages");
+
+    let div = document.createElement("p");
+
+    if (type === "user") {
+        div.innerHTML = `<b>You:</b> ${text}`;
+    } else {
+        // Parse markdown formatting (bold, italic, lists, etc.)
+        const parsedText = marked.parse(text);
+        div.innerHTML = `<b>Bot:</b> ${parsedText}`;
+        speak(text);
+    }
+
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
+}
+
+/* 📩 SEND MESSAGE */
+async function sendMessage() {
+    let input = document.getElementById("userInput");
+    let msg = input.value.trim();
+
+    if (!msg) return;
+
+    addMessage(msg, "user");
+    input.value = "";
+
+    let messages = document.getElementById("messages");
+    let loading = document.createElement("p");
+    loading.id = "loading";
+    loading.innerHTML = "<i>Bot is typing...</i>";
+    messages.appendChild(loading);
+
+    try {
+        let res = await fetch("/chat", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({message: msg})
+        });
+
+        let data = await res.json();
+        document.getElementById("loading")?.remove();
+
+        if (data.type === "text") {
+            addMessage(data.reply, "bot");
+        } else if (data.type === "redirect") {
+            addMessage(`Click here → <a href="${data.url}">Open Module</a>`, "bot");
+        }
+
+    } catch (err) {
+        document.getElementById("loading")?.remove();
+        addMessage("Error connecting to server.", "bot");
+    }
+}
+
+/* 🎤 VOICE INPUT */
+let recognition;
+
+function startVoice() {
+    if (!('webkitSpeechRecognition' in window)) {
+        alert("Voice not supported in this browser (use Chrome)");
+        return;
+    }
+
+    recognition = new webkitSpeechRecognition();
+    recognition.lang = "en-IN";
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    recognition.start();
+
+    recognition.onstart = () => {
+        addMessage("🎤 Listening...", "bot");
+    };
+
+    recognition.onresult = (event) => {
+        let transcript = event.results[0][0].transcript;
+        document.getElementById("userInput").value = transcript;
+        sendMessage();
+    };
+
+    recognition.onerror = (event) => {
+        addMessage("Voice error: " + event.error, "bot");
+    };
+}
+</script>
+<div class="app-shell">
+    <nav class="navbar navbar-expand-lg navbar-glass sticky-top">
+        <div class="container py-2">
+            <a class="navbar-brand brand fs-4" href="{{ url_for('dashboard') }}">
+                <i class="bi bi-flower1 text-success me-2"></i>AgroSmart
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('fertilizer') }}">Fertilizer</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('disease') }}">Disease</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('mandi_price_page') }}">Mandi Prices</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">Logout</a></li>
+                    <li class="nav-item">
+                        <div class="topbar-right ms-lg-2">
+
+    <!-- 🔔 Notification Bell -->
+    <div style="position: relative; cursor: pointer;" onclick="toggleNotifications()">
+        <i class="bi bi-bell fs-5"></i>
+        <span id="notifBadge" 
+              style="
+                position:absolute;
+                top:-5px;
+                right:-5px;
+                background:red;
+                color:white;
+                font-size:10px;
+                padding:2px 6px;
+                border-radius:50%;
+                display:none;
+              ">
+            0
+        </span>
+    </div>
+
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" id="themeToggle" type="button">
+        <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
+    </button>
+
+</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container py-4 py-lg-5">
+        {% block content %}{% endblock %}
+    </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const root = document.documentElement;
+    const savedTheme = localStorage.getItem("agrosmart-theme") || "light";
+    root.setAttribute("data-theme", savedTheme);
+
+    const themeToggle = document.getElementById("themeToggle");
+    const themeIcon = document.getElementById("themeIcon");
+
+    function syncThemeIcon() {
+        const theme = root.getAttribute("data-theme");
+        themeIcon.className = theme === "dark"
+            ? "bi bi-sun-fill"
+            : "bi bi-moon-stars-fill";
+    }
+
+    syncThemeIcon();
+
+    themeToggle?.addEventListener("click", () => {
+        const nextTheme = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        root.setAttribute("data-theme", nextTheme);
+        localStorage.setItem("agrosmart-theme", nextTheme);
+        syncThemeIcon();
+    });
+
+    tsParticles.load("tsparticles", {
+        fullScreen: { enable: false },
+        fpsLimit: 60,
+        particles: {
+            number: { value: 38, density: { enable: true, area: 900 } },
+            color: { value: ["#22c55e", "#38bdf8", "#ffffff"] },
+            links: {
+                enable: true,
+                color: "#ffffff",
+                opacity: 0.08,
+                distance: 140,
+                width: 1
+            },
+            move: {
+                enable: true,
+                speed: 0.7,
+                outModes: { default: "out" }
+            },
+            opacity: { value: 0.18 },
+            size: { value: { min: 1, max: 4 } }
+        },
+        detectRetina: true
+    });
+</script>
+<script>
+function toggleNotifications() {
+    document.getElementById("notificationPanel").classList.toggle("active");
+}
+
+/* 🔄 FETCH FROM BACKEND */
+async function fetchNotifications() {
+    try {
+        let res = await fetch("/get_notifications");
+        let data = await res.json();
+
+        let list = document.getElementById("notificationList");
+        let badge = document.getElementById("notifBadge");
+
+        list.innerHTML = "";
+
+        if (data.notifications.length === 0) {
+            list.innerHTML = "<p class='text-muted'>No notifications</p>";
+            badge.style.display = "none";
+            return;
+        }
+
+        badge.style.display = "inline-block";
+        badge.innerText = data.unread_count;
+
+        data.notifications.forEach(n => {
+    let div = document.createElement("div");
+    div.className = "notif-item";
+    div.innerText = n.message;
+
+    if (!n.is_read) {
+        div.style.fontWeight = "bold";
+    }
+    div.onclick = () => {
+        document.getElementById("notificationPanel").classList.remove("active");
+    };
+
+    list.appendChild(div);
+});
+
+    } catch (err) {
+        console.error("Notification fetch error", err);
+    }
+}
+
+/* ✅ MARK READ */
+async function markAllRead() {
+    await fetch("/mark_all_read", { method: "POST" });
+    fetchNotifications();
+}
+
+/* 🔁 POLLING EVERY 15 SEC */
+setInterval(fetchNotifications, 15000);
+
+/* INIT */
+fetchNotifications();
+</script>
+<script>
+document.addEventListener("click", function(event) {
+    const panel = document.getElementById("notificationPanel");
+    const bellWrapper = document.querySelector("[onclick='toggleNotifications()']");
+
+    if (!panel.contains(event.target) && !bellWrapper.contains(event.target)) {
+        panel.classList.remove("active");
+    }
+});
+</script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

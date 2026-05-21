@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}Soil Health Analysis{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <!-- HEADER -->
+    <div class="glass-card p-4 mb-4 text-center">
+        <h2>🌍 Soil Health Analysis</h2>
+        <p class="text-muted">Analyze soil quality and get smart recommendations</p>
+    </div>
+
+    <!-- INPUT FORM -->
+    <div class="glass-card p-4 mb-4">
+        <form method="POST" class="row g-3">
+
+            <div class="col-md-4">
+                <label>Nitrogen</label>
+                <input type="number" step="any" name="nitrogen" class="form-control" required>
+            </div>
+
+            <div class="col-md-4">
+                <label>Phosphorus</label>
+                <input type="number" step="any" name="phosphorus" class="form-control" required>
+            </div>
+
+            <div class="col-md-4">
+                <label>Potassium</label>
+                <input type="number" step="any" name="potassium" class="form-control" required>
+            </div>
+
+            <div class="col-md-4">
+                <label>Temperature (°C)</label>
+                <input type="number" step="any" name="temperature" class="form-control" required>
+            </div>
+
+            <div class="col-md-4">
+                <label>Humidity (%)</label>
+                <input type="number" step="any" name="humidity" class="form-control" required>
+            </div>
+
+            <div class="col-md-4">
+                <label>pH Value</label>
+                <input type="number" step="any" name="ph_value" class="form-control" required>
+            </div>
+
+            <div class="col-md-4">
+                <label>Rainfall (mm)</label>
+                <input type="number" step="any" name="rainfall" class="form-control" required>
+            </div>
+
+            <div class="col-12 text-center mt-3">
+                <button type="submit" class="btn btn-success px-4">
+                    🔍 Analyze Soil
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+    <!-- RESULT SECTION -->
+    {% if result %}
+    <div class="row">
+
+        <!-- SOIL TYPE -->
+        <div class="col-md-4 mb-3">
+            <div class="glass-card p-3 text-center">
+                <h5>🌱 Soil Type</h5>
+                <h4 class="text-success">{{ result.soil_type }}</h4>
+            </div>
+        </div>
+
+        <!-- VARIETY -->
+        <div class="col-md-4 mb-3">
+            <div class="glass-card p-3 text-center">
+                <h5>🌾 Best Variety</h5>
+                <h4 class="text-primary">{{ result.variety }}</h4>
+            </div>
+        </div>
+
+        <!-- DEFICIENCY -->
+        <div class="col-md-4 mb-3">
+            <div class="glass-card p-3 text-center">
+                <h5>⚠ Deficiency</h5>
+
+                {% for d in result.deficiency %}
+                    <div class="badge bg-warning text-dark m-1 p-2">
+                        {{ d }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}

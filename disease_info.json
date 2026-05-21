@@ -1,0 +1,118 @@
+{
+    "Apple___Apple_Scab": {
+        "description": "Apple Apple Scab is a plant disease affecting crop health.",
+        "solution": "Remove infected leaves and apply appropriate fungicide or pesticide. Maintain proper irrigation and hygiene."
+    },
+    "Apple___Black_Rot": {
+        "description": "Apple Black Rot is a plant disease affecting crop health.",
+        "solution": "Remove infected leaves and apply appropriate fungicide or pesticide. Maintain proper irrigation and hygiene."
+    },
+    "Apple___Cedar_Apple_Rust": {
+        "description": "Apple Cedar Apple Rust is a plant disease affecting crop health.",
+        "solution": "Remove infected leaves and apply appropriate fungicide or pesticide. Maintain proper irrigation and hygiene."
+    },
+    "Apple___Healthy": {
+        "description": "Apple Healthy is a plant disease affecting crop health.",
+        "solution": "Remove infected leaves and apply appropriate fungicide or pesticide. Maintain proper irrigation and hygiene."
+    },
+    "Bell_Pepper___Bacterial_Spot": {
+        "description": "Bell Pepper Bacterial Spot is a plant disease affecting crop health.",
+        "solution": "Remove infected leaves and apply appropriate fungicide or pesticide. Maintain proper irrigation and hygiene."
+    },
+    "Bell_Pepper___Healthy": {
+        "description": "Bell Pepper Healthy is a plant disease affecting crop health.",
+        "solution": "Remove infected leaves and apply appropriate fungicide or pesticide. Maintain proper irrigation and hygiene."
+    },
+    "Cherry___Healthy": {
+        "description": "Cherry Healthy is a plant disease affecting crop health.",
+        "solution": "Remove infected leaves and apply appropriate fungicide or pesticide. Maintain proper irrigation and hygiene."
+    },
+    "Cherry___Powdery_Mildew": {
+        "description": "Cherry Powdery Mildew is a plant disease affecting crop health.",
+        "solution": "Remove infected leaves and apply appropriate fungicide or pesticide. Maintain proper irrigation and hygiene."
+    },
+    "Corn_Maize___Cercospora_Leaf_Spot": {
+        "description": "Corn Maize Cercospora Leaf Spot is a plant disease affecting crop health.",
+        "solution": "Remove infected leaves and apply appropriate fungicide or pesticide. Maintain proper irrigation and hygiene."
+    },
+    "Corn_Maize___Common_Rust": {
+        "description": "Corn Maize Common Rust is a plant disease affecting crop health.",
+        "solution": "Remove infected leaves and apply appropriate fungicide or pesticide. Maintain proper irrigation and hygiene."
+    },
+    "Corn_Maize___Healthy": {
+        "description": "Corn Maize Healthy is a plant disease affecting crop health.",
+        "solution": "Remove infected leaves and apply appropriate fungicide or pesticide. Maintain proper irrigation and hygiene."
+    },
+    "Corn_Maize___Northern_Leaf_Blight": {
+        "description": "Corn Maize Northern Leaf Blight is a plant disease affecting crop health.",
+        "solution": "Remove infected leaves and apply appropriate fungicide or pesticide. Maintain proper irrigation and hygiene."
+    },
+    "Grape___Black_Rot": {
+        "description": "Grape Black Rot is a plant disease affecting crop health.",
+        "solution": "Remove infected leaves and apply appropriate fungicide or pesticide. Maintain proper irrigation and hygiene."
+    },
+    "Grape___Esca_Black_Measles": {
+        "description": "Grape Esca Black Measles is a plant disease affecting crop health.",
+        "solution": "Remove infected leaves and apply appropriate fungicide or pesticide. Maintain proper irrigation and hygiene."
+    },
+    "Grape___Healthy": {
+        "description": "Grape Healthy is a plant disease affecting crop health.",
+        "solution": "Remove infected leaves and apply appropriate fungicide or pesticide. Maintain proper irrigation and hygiene."
+    },
+    "Grape___Leaf_Blight": {
+        "description": "Grape Leaf Blight is a plant disease affecting crop health.",
+        "solution": "Remove infected leaves and apply appropriate fungicide or pesticide. Maintain proper irrigation and hygiene."
+    },
+    "Peach___Bacterial_Spot": {
+        "description": "Peach Bacterial Spot is a plant disease affecting crop health.",
+        "solution": "Remove infected leaves and apply appropriate fungicide or pesticide. Maintain proper irrigation and hygiene."
+    },
+    "Peach___Healthy": {
+        "description": "Peach Healthy is a plant disease affecting crop health.",
+        "solution": "Remove infected leaves and apply appropriate fungicide or pesticide. Maintain proper irrigation and hygiene."
+    },
+    "Potato___Early_Blight": {
+        "description": "Potato Early Blight is a plant disease affecting crop health.",
+        "solution": "Remove infected leaves and apply appropriate fungicide or pesticide. Maintain proper irrigation and hygiene."
+    },
+    "Potato___Healthy": {
+        "description": "Potato Healthy is a plant disease affecting crop health.",
+        "solution": "Remove infected leaves and apply appropriate fungicide or pesticide. Maintain proper irrigation and hygiene."
+    },
+    "Potato___Late_Blight": {
+        "description": "Potato Late Blight is a plant disease affecting crop health.",
+        "solution": "Remove infected leaves and apply appropriate fungicide or pesticide. Maintain proper irrigation and hygiene."
+    },
+    "Strawberry___Healthy": {
+        "description": "Strawberry Healthy is a plant disease affecting crop health.",
+        "solution": "Remove infected leaves and apply appropriate fungicide or pesticide. Maintain proper irrigation and hygiene."
+    },
+    "Strawberry___Leaf_Scorch": {
+        "description": "Strawberry Leaf Scorch is a plant disease affecting crop health.",
+        "solution": "Remove infected leaves and apply appropriate fungicide or pesticide. Maintain proper irrigation and hygiene."
+    },
+    "Tomato___Bacterial_Spot": {
+        "description": "Tomato Bacterial Spot is a plant disease affecting crop health.",
+        "solution": "Remove infected leaves and apply appropriate fungicide or pesticide. Maintain proper irrigation and hygiene."
+    },
+    "Tomato___Early_Blight": {
+        "description": "Tomato Early Blight is a plant disease affecting crop health.",
+        "solution": "Remove infected leaves and apply appropriate fungicide or pesticide. Maintain proper irrigation and hygiene."
+    },
+    "Tomato___Healthy": {
+        "description": "Tomato Healthy is a plant disease affecting crop health.",
+        "solution": "Remove infected leaves and apply appropriate fungicide or pesticide. Maintain proper irrigation and hygiene."
+    },
+    "Tomato___Late_Blight": {
+        "description": "Tomato Late Blight is a plant disease affecting crop health.",
+        "solution": "Remove infected leaves and apply appropriate fungicide or pesticide. Maintain proper irrigation and hygiene."
+    },
+    "Tomato___Septoria_Leaf_Spot": {
+        "description": "Tomato Septoria Leaf Spot is a plant disease affecting crop health.",
+        "solution": "Remove infected leaves and apply appropriate fungicide or pesticide. Maintain proper irrigation and hygiene."
+    },
+    "Tomato___Yellow_Leaf_Curl_Virus": {
+        "description": "Tomato Yellow Leaf Curl Virus is a plant disease affecting crop health.",
+        "solution": "Remove infected leaves and apply appropriate fungicide or pesticide. Maintain proper irrigation and hygiene."
+    }
+}

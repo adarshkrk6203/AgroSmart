@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="fade-up">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="section-title">Marketplace </h1>
+            <p class="muted">Buy & sell farm products directly</p>
+        </div>
+
+        <a href="/add-product" class="btn-premium">
+            <i class="bi bi-plus-circle"></i> Add Product
+        </a>
+    </div>
+    <!-- 🔍 SEARCH + FILTER BAR -->
+<div class="glass-card p-3 mb-4 search-bar">
+
+    <form method="GET" class="row g-3 align-items-center">
+
+        <!-- 🔍 Search -->
+        <div class="col-md-5">
+            <input 
+                type="text" 
+                name="search" 
+                value="{{ search or '' }}"
+                placeholder="Search products..."
+                class="input-modern w-100">
+        </div>
+
+        <!-- 🎯 Category -->
+        <div class="col-md-4">
+            <select name="category" class="input-modern w-100">
+                <option value="All">All Categories</option>
+
+                {% for c in categories %}
+                    <option value="{{ c }}" {% if selected_category == c %}selected{% endif %}>
+                        {{ c }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Button -->
+        <div class="col-md-3">
+            <button class="btn-modern w-100">
+                Apply
+            </button>
+        </div>
+
+    </form>
+
+</div>
+    <!-- Product Grid -->
+    <div class="row g-4">
+
+        {% for p in products %}
+        <div class="col-md-4">
+
+            <div class="glass-card p-3 product-card h-100">
+
+                <div class="img-box">
+                    <img src="/{{ p.image }}">
+                </div>
+
+                <div class="mt-3">
+                    <h5>{{ p.name }}</h5>
+                    <p class="muted small">{{ p.category }}</p>
+
+                    <div class="mt-3">
+
+    <!-- Price + Quantity -->
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <span class="price">₹{{ p.price }}/{{ p.unit }}</span>
+        <span class="qty">{{ p.quantity }} {{ p.unit }}</span>
+    </div>
+
+    <!-- Button -->
+    <a href="/product/{{ p.id }}" class="btn-premium w-100">
+        View Details
+    </a>
+
+</div>
+                </div>
+
+            </div>
+
+        </div>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+<style>
+.product-card {
+    transition: 0.3s;
+}
+
+.product-card:hover {
+    transform: translateY(-6px);
+}
+
+.img-box {
+    height: 200px;
+    overflow: hidden;
+    border-radius: 16px;
+}
+
+.img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.price {
+    font-weight: bold;
+    color: #16a34a;
+}
+
+.qty {
+    font-size: 12px;
+    color: gray;
+}
+.product-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.product-card .btn-premium {
+    margin-top: 8px;
+}
+.product-card {
+    height: 100%;
+}
+.input-premium {
+    padding: 6px 10px;   /* reduced from ~10px */
+    height: 38px;        /* fixed height */
+    border-radius: 8px;
+    border: none;
+    background: rgba(255,255,255,0.08);
+    color: white;
+    font-size: 14px;
+}
+
+.input-premium::placeholder {
+    color: #ccc;
+}
+.search-bar {
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+}
+
+/* 🔥 FIX TEXT VISIBILITY */
+.input-modern {
+    height: 38px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+
+    background: rgba(255,255,255,0.9);   /* LIGHT background */
+    color: #222;                         /* DARK text */
+
+    font-size: 14px;
+}
+
+/* Placeholder */
+.input-modern::placeholder {
+    color: #666;
+}
+
+/* Dropdown */
+select.input-modern {
+    cursor: pointer;
+}
+
+/* Button */
+.btn-modern {
+    height: 38px;
+    border: none;
+    border-radius: 10px;
+
+    background: linear-gradient(135deg, #16a34a, #22c55e);
+    color: white;
+
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.btn-modern:hover {
+    transform: scale(1.03);
+    background: linear-gradient(135deg, #15803d, #16a34a);
+}
+</style>
+
+{% endblock %}
