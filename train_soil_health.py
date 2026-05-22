@@ -2,9 +2,9 @@ import pandas as pd
 import joblib
 
 from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import classification_report, accuracy_score
 from sklearn.preprocessing import LabelEncoder
+from sklearn.ensemble import HistGradientBoostingClassifier
+from sklearn.metrics import accuracy_score, classification_report
 
 # Load dataset
 df = pd.read_csv("sensor_Crop_Dataset.csv")
@@ -17,52 +17,51 @@ feature_cols = [
 
 X = df[feature_cols]
 
-# ----------------------------
-# 1. Soil Type Model
-# ----------------------------
-soil_le = LabelEncoder()
-y_soil = soil_le.fit_transform(df["Soil_Type"])
+def train_and_save_model(target_col, model_file, encoder_file):
+    le = LabelEncoder()
+    y = le.fit_transform(df[target_col])
 
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y_soil, test_size=0.2, random_state=42, stratify=y_soil
+    X_train, X_test, y_train, y_test = train_test_split(
+        X,
+        y,
+        test_size=0.2,
+        random_state=42,
+        stratify=y
+    )
+
+    model = HistGradientBoostingClassifier(
+        learning_rate=0.05,
+        max_depth=6,
+        max_iter=150,
+        min_samples_leaf=20,
+        l2_regularization=0.1,
+        random_state=42
+    )
+
+    model.fit(X_train, y_train)
+
+    y_pred = model.predict(X_test)
+    print(f"\n{target_col} Model Accuracy:", accuracy_score(y_test, y_pred))
+    print(classification_report(y_test, y_pred, target_names=le.classes_))
+
+    joblib.dump(model, model_file, compress=3)
+    joblib.dump(le, encoder_file, compress=3)
+
+    print(f"Saved: {model_file}")
+    print(f"Saved: {encoder_file}")
+
+# Train Soil Type model
+train_and_save_model(
+    target_col="Soil_Type",
+    model_file="soil_type_model.pkl",
+    encoder_file="soil_type_label_encoder.pkl"
 )
 
-soil_model = RandomForestClassifier(
-    n_estimators=300,
-    random_state=42,
-    class_weight="balanced"
-)
-soil_model.fit(X_train, y_train)
-
-soil_pred = soil_model.predict(X_test)
-print("Soil Type Model Accuracy:", accuracy_score(y_test, soil_pred))
-print(classification_report(y_test, soil_pred, target_names=soil_le.classes_))
-
-joblib.dump(soil_model, "soil_type_model.pkl")
-joblib.dump(soil_le, "soil_type_label_encoder.pkl")
-
-# ----------------------------
-# 2. Variety Model
-# ----------------------------
-var_le = LabelEncoder()
-y_var = var_le.fit_transform(df["Variety"])
-
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y_var, test_size=0.2, random_state=42, stratify=y_var
+# Train Variety model
+train_and_save_model(
+    target_col="Variety",
+    model_file="variety_model.pkl",
+    encoder_file="variety_label_encoder.pkl"
 )
 
-var_model = RandomForestClassifier(
-    n_estimators=400,
-    random_state=42,
-    class_weight="balanced"
-)
-var_model.fit(X_train, y_train)
-
-var_pred = var_model.predict(X_test)
-print("Variety Model Accuracy:", accuracy_score(y_test, var_pred))
-print(classification_report(y_test, var_pred, target_names=var_le.classes_))
-
-joblib.dump(var_model, "variety_model.pkl")
-joblib.dump(var_le, "variety_label_encoder.pkl")
-
-print("Training complete. Models saved.")
+print("\nTraining complete. Models saved.")
